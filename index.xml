@@ -1,0 +1,97 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>锋哥博客</title>
+        <link>https://huangzhifeng1.github.io/</link>
+        <description>This is my cool site</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 03 Dec 2022 17:10:54 &#43;0800</lastBuildDate>
+            <atom:link href="https://huangzhifeng1.github.io/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+    <title>Docker</title>
+    <link>https://huangzhifeng1.github.io/posts/docker/</link>
+    <pubDate>Sat, 03 Dec 2022 17:10:54 &#43;0800</pubDate>
+    <author>锋哥</author>
+    <guid>https://huangzhifeng1.github.io/posts/docker/</guid>
+    <description><![CDATA[1.什么是 Docker 官网的介绍是“Docker is the world’s leading software container platform.” 官方给Docker的定位是一个应用容器平台。
+Docker 是一个容器平台的领导者 Docker 容器平台 Docker 应用容器平台
+application项目 Mysql Redis MongoDB ElasticSeacrh &hellip;..
+application项目 Docker 应用容器平台 Mysql Redis mongoDB ElasticSearch tomcat nginx&hellip;&hellip;
+2.为什么是Docker 合作开发的时候，在本机可以跑，别人的电脑跑不起来
+这里我们拿java Web应用程序举例，我们一个java Web应用程序涉及很多东西，比如jdk、tomcat、spring等等。当这些其中某一项版本不一致的时候，可能就会导致应用程序跑不起来这种情况。Docker则将程序直接打包成镜像，直接运行在容器中即可。
+服务器自己的程序挂了，结果发现是别人程序出了问题把内存吃完了，自己程序因为内存不够就挂了
+这种也是一种比较常见的情况，如果你的程序重要性不是特别高的话，公司基本上不可能让你的程序独享一台服务器的，这时候你的服务器就会跟公司其他人的程序共享一台服务器，所以不可避免地就会受到其他程序的干扰，导致自己的程序出现问题。Docker就很好解决了环境隔离的问题，别人程序不会影响到自己的程序。
+公司要弄一个活动，可能会有大量的流量进来，公司需要再多部署几十台服务器
+在没有Docker的情况下，要在几天内部署几十台服务器，这对运维来说是一件非常折磨人的事，而且每台服务器的环境还不一定一样，就会出现各种问题，最后部署地头皮发麻。用Docker的话，我只需要将程序打包到镜像，你要多少台服务，我就给力跑多少容器，极大地提高了部署效率。
+3.Docker和虚拟机区别 关于Docker与虚拟机的区别，我在网上找到的一张图，非常直观形象地展示出来，话不多说，直接上图。
+比较上面两张图，我们发现虚拟机是携带操作系统，本身很小的应用程序却因为携带了操作系统而变得非常大，很笨重。Docker是不携带操作系统的，所以Docker的应用就非常的轻巧。另外在调用宿主机的CPU、磁盘等等这些资源的时候，拿内存举例，虚拟机是利用Hypervisor去虚拟化内存，整个调用过程是虚拟内存-&gt;虚拟物理内存-&gt;真正物理内存，但是Docker是利用Docker Engine去调用宿主的的资源，这时候过程是虚拟内存-&gt;真正物理内存。
+传统虚拟机 Docker容器 磁盘占用 几个GB到几十个GB左右 几十MB到几百MB左右 CPU内存占用 虚拟操作系统非常占用CPU和内存 Docker引擎占用极低 启动速度 （从开机到运行项目）几分钟 （从开启容器到运行项目）几秒 安装管理 需要专门的运维技术 安装、管理方便 应用部署 每次部署都费时费力 从第二次部署开始轻松简捷 耦合性 多个应用服务安装到一起，容易互相影响 每个应用服务一个容器，达成隔离 系统依赖 无 需求相同或相似的内核，目前推荐是Linux 4.Docker 的核心 镜像: 一个镜像代表一个应用环境,他是一个只读的文件,如 mysql镜像,tomcat镜像,nginx镜像等 容器: 镜像每次运行之后就是产生一个容器,就是正在运行的镜像,特点就是可读可写 仓库:用来存放镜像的位置,类似于maven仓库,也是镜像下载和上传的位置 dockerFile:docker生成镜像配置文件,用来书写自定义镜像的一些配置 tar:一个对镜像打包的文件,日后可以还原成镜像 5.]]></description>
+</item>
+<item>
+    <title>Linux学习笔记</title>
+    <link>https://huangzhifeng1.github.io/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <pubDate>Sat, 03 Dec 2022 17:10:54 &#43;0800</pubDate>
+    <author>锋哥</author>
+    <guid>https://huangzhifeng1.github.io/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+    <description><![CDATA[Linux 1.Linux的引言 Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和Unix的多用户、多任务、支持多线程和多CPU的操作系统。伴随着互联网的发展，Linux得到了来自全世界软件爱好者、组织、公司的支持。它除了在服务器操作系统方面保持着强劲的发展势头以外，在个人电脑、嵌入式系统上都有着长足的进步。目前Linux存在着许多不同的Linux发行版本，但它们都使用了Linux内核。Linux可安装在各种计算机硬件设备中，比如手机、平板电脑、路由器、台式计算机。
+2.Linux的诞生 20世纪80年代，计算机硬件的性能不断提高，PC的市场不断扩大，当时可供计算机选用的操作系统主要有Unix、DOS和MacOS这几种。Unix价格昂贵，不能运行于PC；DOS显得简陋，且源代码被软件厂商严格保密；
+MacOS是一种专门用于苹果计算机的操作系统。此时，计算机科学领域迫切需要一个更加完善、强大、廉价和完全开放的操作系统。由于供教学使用的典型操作系统很少，因此当时在荷兰当教授的美国人AndrewS.Tanenbaum编写了一个操作系统，名为MINIX，为了向学生讲述操作系统内部工作原理。MINIX虽然很好，但只是一个用于教学目的的简单操作系统，而不是一个强有力的实用操作系统，然而最大的好处就是公开源代码。全世界学计算机的学生都通过钻研MINIX源代码来了解电脑里运行的MINIX操作系统，芬兰赫尔辛基大学大学二年级的学生Linus Torvalds就是其中一个，在吸收了MINIX精华的基础上，Linus于1991年写出了属于自己的Linux操作系统，版本为Linux0.01，是Linux时代开始的标志。他利用Unix的核心，去除繁杂的核心程序，改写成适用于一般计算机的x86系统，并放在网络上供大家下载，1994年推出完整的核心Version1.0，至此，Linux逐渐成为功能完善、稳定的操作系统，并被广泛使用。
+总结:Linux出现于1991年，是由芬兰赫尔辛基大学学生,Linus Torvalds和后来加入的众多爱好者共同开发完成。
+3.Linux的特点 3.1 完全免费 Linux是一款免费的操作系统，用户可以通过网络或其他途径免费获得，并可以任意修改其源代码。这是其他的操作系统所做不到的。正是由于这一点，来自全世界的无数程序员参与了Linux的修改、编写工作，程序员可以根据自己的兴趣和灵感对其进行改变，这让Linux吸收了无数程序员的精华，不断壮大。
+3.2 多用户、多任务 Linux支持多用户，各个用户对于自己的文件设备有自己特殊的权利，保证了各用户之间互不影响。多任务则是现在电脑最主要的一个特点，Linux可以使多个程序同时并独立地运行。同时``丰富的网络功能，可靠的系统安全，良好的可移植性，具有标准兼容性，出色的速度性能`。
+4.Linux中目录结构 # 目录结构	bin (binaries)存放二进制可执行文件	[重点] sbin (super user binaries)存放二进制可执行文件，只有root才能访问 etc (etcetera)存放系统配置文件	[重点] usr (unix shared resources)用于存放共享的系统资源 [重点] home 存放用户文件的根目录	[重点] root 超级用户目录	[重点] dev (devices)用于存放设备文件 lib (library)存放跟文件系统中的程序运行所需要的共享库及内核模块 mnt (mount)系统管理员安装临时文件系统的安装点 boot 存放用于系统引导时使用的各种文件 tmp (temporary)用于存放各种临时文件	[重点] var (variable)用于存放运行时需要改变数据的文件 5. Linux中常用指令 # Linux中命令格式: 命令 -选项 参数 如: ls -l /usr 注意:在linux中命令严格区分大小写
+5.1 ls 命令 # ls 显示文件和目录列表	(list) 常用参数: -l (long)	长格式显示文件和目录信息 -a (all)	显示所有文件和目录(包含隐藏文件和目录) -R 递归显示指定目录下的文件清单，即会显示指定目录分支内各子目录中的文件清单。 # 0.]]></description>
+</item>
+<item>
+    <title>Nginx的安装</title>
+    <link>https://huangzhifeng1.github.io/posts/nginx%E7%9A%84%E5%AE%89%E8%A3%85/</link>
+    <pubDate>Sat, 03 Dec 2022 17:10:54 &#43;0800</pubDate>
+    <author>锋哥</author>
+    <guid>https://huangzhifeng1.github.io/posts/nginx%E7%9A%84%E5%AE%89%E8%A3%85/</guid>
+    <description><![CDATA[1.安装Nginx 1.1 Nginx的引言 Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：京东、新浪、网易、腾讯、淘宝等。
+1.2 Nginx的安装 # 0.安装必要依赖 yum install -y gcc pcre-devel zlib-devel # 1.下载Nginx http://nginx.org/en/download.html # 2.将Nginx上传到linux中,并解压缩 tar -zxvf nginx-1.11.1.tar.gz # 3.查看Nginx安装目录 [root@localhost nginx-1.11.1]# ls auto CHANGES CHANGES.ru conf configure contrib html LICENSE man README src # 4.在Nginx安装目录中执行如下命令:(指定安装位置) ./configure --prefix=/usr/nginx # 5.执行上述命令后,执行如下命令: make &amp;&amp; make install # 6.编译完成后进入编译安装目录/usr/nginx目录中查看: [root@localhost nginx]# ls -l 总用量 4 drwxr-xr-x. 2 root root 4096 10月 14 21:17 conf drwxr-xr-x. 2 root root 40 10月 14 21:17 html drwxr-xr-x.]]></description>
+</item>
+<item>
+    <title>使用Hugo搭建我们的博客</title>
+    <link>https://huangzhifeng1.github.io/posts/%E5%88%A9%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
+    <pubDate>Sat, 03 Dec 2022 17:10:54 &#43;0800</pubDate>
+    <author>锋哥</author>
+    <guid>https://huangzhifeng1.github.io/posts/%E5%88%A9%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
+    <description><![CDATA[hugo学习笔记 引言 HUGO 是一套模版静态化的系统，了解其目录结构有助于创建我们的网站系统
+官方文档:https://gohugo.io/documentation/
+quick start:https://gohugo.io/getting-started/quick-start/
+linux中安装hugo 去HUGO的官方网站中下载tar.gz文件至本机下载完成后用xftp将tar.gz文件上传至linux 相关指令:
+tar -zxf hugo_0.107.0_Linux-64.bit.tar.gz `进行解压` sudo cp ./hugo /usr/local/bin `复制一份hugo程序到/usr/local/bin/` sudo version `查看版本,判断是否安装成功` hugo相关配置 hugo相关配置完成后，在相应的目录下建立站点
+hugo new site fengge-blog hugo相关主题: https://gohugo.io/getting-started/quick-start/
+git clone + github地址 注意:需要将下载好的主题移动至themes目录
+在虚拟机中用vim命令对config.toml文件内容进行修改！
+vim config.toml
+在本地启动hugo hugo serve --bind &#34;0.0.0.0&#34; --buildDrafts 出现下图即为启动成功！
+接下来，我们去浏览器测试一下，输入虚拟机的ip地址+1313端口号,看浏览器是否能显示页面！ 在GitHub部署HUGO 首先我们需要在github中创建一个仓库，名字必须为github的用户名+github.io为后缀! 打开我们刚刚设置的仓库名字，仓库名字即是我们的访问网页! 打开后会出现404，是因为我们还没将hugo文件推送上github！ 用hugo生成网页，托管到Github仓库中
+hugo --theme=LoveIt --baseUrl=&quot;https://huangzhifeng1.github.io/&quot; --buildDrafts
+注意:theme后面为主题的名字！
+执行完这条语句之后，会在当前目录下生成对应的public文件，最后我们需要将public推送至远程github！
+cd public git init git add . git commit -m &#34;message&#34; git remote add origin + .]]></description>
+</item>
+<item>
+    <title>在linux中安装git</title>
+    <link>https://huangzhifeng1.github.io/posts/%E5%9C%A8linux%E4%B8%AD%E4%BD%BF%E7%94%A8git/</link>
+    <pubDate>Sat, 03 Dec 2022 17:10:54 &#43;0800</pubDate>
+    <author>锋哥</author>
+    <guid>https://huangzhifeng1.github.io/posts/%E5%9C%A8linux%E4%B8%AD%E4%BD%BF%E7%94%A8git/</guid>
+    <description><![CDATA[下载与安装 官方下载:https://git-scm.com/download/linux
+1.官方网站下载安装包 2.将安装包放入虚拟机指定位置 3.解压安装包 tar -zxvf git-2.34.1.tar.gz `
+4.安装编译环境 yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils-MakeMaker `
+`
+注意:如果之前有下载过git可以使用yum remove git命令进行卸载！
+5.编译源码 make prefix=/usr/local/git `
+6.安装git make prefix=/usr/local/git 安装完会出现以下目录
+`
+7.配置环境变量 vim /etc/profile `
+最后刷新环境变量！
+source /etc/profile git --version `查看版本` `
+这样git就安装完成啦！！！！
+配置git相关信息 1.先在gitee上创建一个项目 `
+2.将相关信息与git绑定 git config --global user.name“黄志锋&#34; git config --global user.email &#34;9844272+huang-zhifeng1@user.noreplygitee.com `
+3.推送test文件测试是否推送成功 git init `初始化项目` git add . `将当前目录下的文件添加到仓库（缓冲区）` git commit -m &#34;init project&#34; `提交到本地仓库` git push -u origin master `推送到远程仓库` `]]></description>
+</item>
+</channel>
+</rss>

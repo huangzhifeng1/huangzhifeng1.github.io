@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Linux学习笔记 - 锋哥博客</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Linux学习笔记" />
+<meta property="og:description" content="Linux 1.Linux的引言 Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和Unix的多用户、多任务、支持多线程和多CPU的操作系统。伴随着互联网的发展，Linux得到了来自全世界软件爱好者、组织、公司的支持。它除了在服务器操作系统方面保持着强劲的发展势头以外，在个人电脑、嵌入式系统上都有着长足的进步。目前Linux存在着许多不同的Linux发行版本，但它们都使用了Linux内核。Linux可安装在各种计算机硬件设备中，比如手机、平板电脑、路由器、台式计算机。
+2.Linux的诞生 20世纪80年代，计算机硬件的性能不断提高，PC的市场不断扩大，当时可供计算机选用的操作系统主要有Unix、DOS和MacOS这几种。Unix价格昂贵，不能运行于PC；DOS显得简陋，且源代码被软件厂商严格保密；
+MacOS是一种专门用于苹果计算机的操作系统。此时，计算机科学领域迫切需要一个更加完善、强大、廉价和完全开放的操作系统。由于供教学使用的典型操作系统很少，因此当时在荷兰当教授的美国人AndrewS.Tanenbaum编写了一个操作系统，名为MINIX，为了向学生讲述操作系统内部工作原理。MINIX虽然很好，但只是一个用于教学目的的简单操作系统，而不是一个强有力的实用操作系统，然而最大的好处就是公开源代码。全世界学计算机的学生都通过钻研MINIX源代码来了解电脑里运行的MINIX操作系统，芬兰赫尔辛基大学大学二年级的学生Linus Torvalds就是其中一个，在吸收了MINIX精华的基础上，Linus于1991年写出了属于自己的Linux操作系统，版本为Linux0.01，是Linux时代开始的标志。他利用Unix的核心，去除繁杂的核心程序，改写成适用于一般计算机的x86系统，并放在网络上供大家下载，1994年推出完整的核心Version1.0，至此，Linux逐渐成为功能完善、稳定的操作系统，并被广泛使用。
+总结:Linux出现于1991年，是由芬兰赫尔辛基大学学生,Linus Torvalds和后来加入的众多爱好者共同开发完成。
+3.Linux的特点 3.1 完全免费 Linux是一款免费的操作系统，用户可以通过网络或其他途径免费获得，并可以任意修改其源代码。这是其他的操作系统所做不到的。正是由于这一点，来自全世界的无数程序员参与了Linux的修改、编写工作，程序员可以根据自己的兴趣和灵感对其进行改变，这让Linux吸收了无数程序员的精华，不断壮大。
+3.2 多用户、多任务 Linux支持多用户，各个用户对于自己的文件设备有自己特殊的权利，保证了各用户之间互不影响。多任务则是现在电脑最主要的一个特点，Linux可以使多个程序同时并独立地运行。同时``丰富的网络功能，可靠的系统安全，良好的可移植性，具有标准兼容性，出色的速度性能`。
+4.Linux中目录结构 # 目录结构	bin (binaries)存放二进制可执行文件	[重点] sbin (super user binaries)存放二进制可执行文件，只有root才能访问 etc (etcetera)存放系统配置文件	[重点] usr (unix shared resources)用于存放共享的系统资源 [重点] home 存放用户文件的根目录	[重点] root 超级用户目录	[重点] dev (devices)用于存放设备文件 lib (library)存放跟文件系统中的程序运行所需要的共享库及内核模块 mnt (mount)系统管理员安装临时文件系统的安装点 boot 存放用于系统引导时使用的各种文件 tmp (temporary)用于存放各种临时文件	[重点] var (variable)用于存放运行时需要改变数据的文件 5. Linux中常用指令 # Linux中命令格式: 命令 -选项 参数 如: ls -l /usr 注意:在linux中命令严格区分大小写
+5.1 ls 命令 # ls 显示文件和目录列表	(list) 常用参数: -l (long)	长格式显示文件和目录信息 -a (all)	显示所有文件和目录(包含隐藏文件和目录) -R 递归显示指定目录下的文件清单，即会显示指定目录分支内各子目录中的文件清单。 # 0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://huangzhifeng1.github.io/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-03T17:10:54+08:00" />
+<meta property="article:modified_time" content="2022-12-03T17:10:54+08:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux学习笔记"/>
+<meta name="twitter:description" content="Linux 1.Linux的引言 Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和Unix的多用户、多任务、支持多线程和多CPU的操作系统。伴随着互联网的发展，Linux得到了来自全世界软件爱好者、组织、公司的支持。它除了在服务器操作系统方面保持着强劲的发展势头以外，在个人电脑、嵌入式系统上都有着长足的进步。目前Linux存在着许多不同的Linux发行版本，但它们都使用了Linux内核。Linux可安装在各种计算机硬件设备中，比如手机、平板电脑、路由器、台式计算机。
+2.Linux的诞生 20世纪80年代，计算机硬件的性能不断提高，PC的市场不断扩大，当时可供计算机选用的操作系统主要有Unix、DOS和MacOS这几种。Unix价格昂贵，不能运行于PC；DOS显得简陋，且源代码被软件厂商严格保密；
+MacOS是一种专门用于苹果计算机的操作系统。此时，计算机科学领域迫切需要一个更加完善、强大、廉价和完全开放的操作系统。由于供教学使用的典型操作系统很少，因此当时在荷兰当教授的美国人AndrewS.Tanenbaum编写了一个操作系统，名为MINIX，为了向学生讲述操作系统内部工作原理。MINIX虽然很好，但只是一个用于教学目的的简单操作系统，而不是一个强有力的实用操作系统，然而最大的好处就是公开源代码。全世界学计算机的学生都通过钻研MINIX源代码来了解电脑里运行的MINIX操作系统，芬兰赫尔辛基大学大学二年级的学生Linus Torvalds就是其中一个，在吸收了MINIX精华的基础上，Linus于1991年写出了属于自己的Linux操作系统，版本为Linux0.01，是Linux时代开始的标志。他利用Unix的核心，去除繁杂的核心程序，改写成适用于一般计算机的x86系统，并放在网络上供大家下载，1994年推出完整的核心Version1.0，至此，Linux逐渐成为功能完善、稳定的操作系统，并被广泛使用。
+总结:Linux出现于1991年，是由芬兰赫尔辛基大学学生,Linus Torvalds和后来加入的众多爱好者共同开发完成。
+3.Linux的特点 3.1 完全免费 Linux是一款免费的操作系统，用户可以通过网络或其他途径免费获得，并可以任意修改其源代码。这是其他的操作系统所做不到的。正是由于这一点，来自全世界的无数程序员参与了Linux的修改、编写工作，程序员可以根据自己的兴趣和灵感对其进行改变，这让Linux吸收了无数程序员的精华，不断壮大。
+3.2 多用户、多任务 Linux支持多用户，各个用户对于自己的文件设备有自己特殊的权利，保证了各用户之间互不影响。多任务则是现在电脑最主要的一个特点，Linux可以使多个程序同时并独立地运行。同时``丰富的网络功能，可靠的系统安全，良好的可移植性，具有标准兼容性，出色的速度性能`。
+4.Linux中目录结构 # 目录结构	bin (binaries)存放二进制可执行文件	[重点] sbin (super user binaries)存放二进制可执行文件，只有root才能访问 etc (etcetera)存放系统配置文件	[重点] usr (unix shared resources)用于存放共享的系统资源 [重点] home 存放用户文件的根目录	[重点] root 超级用户目录	[重点] dev (devices)用于存放设备文件 lib (library)存放跟文件系统中的程序运行所需要的共享库及内核模块 mnt (mount)系统管理员安装临时文件系统的安装点 boot 存放用于系统引导时使用的各种文件 tmp (temporary)用于存放各种临时文件	[重点] var (variable)用于存放运行时需要改变数据的文件 5. Linux中常用指令 # Linux中命令格式: 命令 -选项 参数 如: ls -l /usr 注意:在linux中命令严格区分大小写
+5.1 ls 命令 # ls 显示文件和目录列表	(list) 常用参数: -l (long)	长格式显示文件和目录信息 -a (all)	显示所有文件和目录(包含隐藏文件和目录) -R 递归显示指定目录下的文件清单，即会显示指定目录分支内各子目录中的文件清单。 # 0."/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://huangzhifeng1.github.io/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://huangzhifeng1.github.io/posts/nginx%E7%9A%84%E5%AE%89%E8%A3%85/" /><link rel="next" href="https://huangzhifeng1.github.io/posts/docker/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Linux学习笔记",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/huangzhifeng1.github.io\/posts\/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/"
+        },"genre": "posts","wordcount":  607 ,
+        "url": "https:\/\/huangzhifeng1.github.io\/posts\/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/","datePublished": "2022-12-03T17:10:54+08:00","dateModified": "2022-12-03T17:10:54+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "锋哥"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="锋哥博客">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="锋哥博客">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux学习笔记</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>锋哥</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-12-03">2022-12-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;607 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1linux的引言">1.Linux的引言</a></li>
+    <li><a href="#2linux的诞生">2.Linux的诞生</a></li>
+    <li><a href="#3linux的特点">3.Linux的特点</a>
+      <ul>
+        <li><a href="#31-完全免费">3.1 完全免费</a></li>
+        <li><a href="#32-多用户多任务">3.2 多用户、多任务</a></li>
+      </ul>
+    </li>
+    <li><a href="#4linux中目录结构">4.Linux中目录结构</a></li>
+    <li><a href="#5-linux中常用指令">5. Linux中常用指令</a>
+      <ul>
+        <li><a href="#51-ls-命令">5.1 ls 命令</a></li>
+        <li><a href="#52-操作文件命令">5.2 操作文件命令</a></li>
+        <li><a href="#53-网络相关命令">5.3 网络相关命令</a></li>
+        <li><a href="#54-tar命令windows-winrar-好压">5.4 tar命令(windows winrar 好压)</a></li>
+        <li><a href="#55-systemctl-服务命令">5.5 systemctl 服务命令</a></li>
+        <li><a href="#56-进程相关命令">5.6 进程相关命令</a></li>
+        <li><a href="#57-vi命令">5.7 vi命令</a></li>
+        <li><a href="#58-软件相关命令">5.8 软件相关命令</a></li>
+        <li><a href="#59-用户和组相关命令">5.9 用户和组相关命令</a></li>
+        <li><a href="#510-权限相关命令">5.10 权限相关命令</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="linux">Linux</h1>
+<h2 id="1linux的引言">1.Linux的引言</h2>
+<p>Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于<code>POSIX和Unix</code>的<code>多用户</code>、<code>多任务</code>、<code>支持多线程和多CPU的操作系统</code>。伴随着互联网的发展，<code>Linux得到了来自全世界软件爱好者、组织、公司的支持</code>。它除了在<code>服务器操作系统</code>方面保持着强劲的发展势头以外，在个人电脑、嵌入式系统上都有着长足的进步。目前Linux存在着许多不同的Linux发行版本，<code>但它们都使用了Linux内核</code>。Linux可安装在各种计算机硬件设备中，比如手机、平板电脑、路由器、台式计算机。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/image-20191011200827437.png"
+        data-srcset="/images/image-20191011200827437.png, /images/image-20191011200827437.png 1.5x, /images/image-20191011200827437.png 2x"
+        data-sizes="auto"
+        alt="/images/image-20191011200827437.png"
+        title="/images/image-20191011200827437.png" /></p>
+<h2 id="2linux的诞生">2.Linux的诞生</h2>
+<p>20世纪80年代，计算机硬件的性能不断提高，PC的市场不断扩大，当时可供计算机选用的操作系统主要有Unix、DOS和MacOS这几种。Unix价格昂贵，不能运行于<a href="https://baike.baidu.com/item/PC/107" target="_blank" rel="noopener noreffer ">PC</a>；<a href="https://baike.baidu.com/item/DOS/32025" target="_blank" rel="noopener noreffer ">DOS</a>显得简陋，且源代码被软件厂商严格保密；</p>
+<p><a href="https://baike.baidu.com/item/MacOS/8654551" target="_blank" rel="noopener noreffer ">MacOS</a>是一种专门用于苹果计算机的操作系统。此时，计算机科学领域迫切需要一个更加完善、强大、廉价和完全开放的操作系统。由于供教学使用的典型操作系统很少，因此当时在荷兰当教授的美国人AndrewS.Tanenbaum编写了一个操作系统，名为<a href="https://baike.baidu.com/item/MINIX/7106045" target="_blank" rel="noopener noreffer ">MINIX</a>，为了向学生讲述操作系统内部工作原理。MINIX虽然很好，但只是一个用于教学目的的简单操作系统，而不是一个强有力的实用操作系统，然而最大的好处就是公开源代码。<code>全世界学计算机的学生都通过钻研MINIX源代码来了解电脑里运行的MINIX操作系统，芬兰赫尔辛基大学大学二年级的学生Linus Torvalds就是其中一个，在吸收了MINIX精华的基础上，Linus于1991年写出了属于自己的Linux操作系统，版本为Linux0.01，是Linux时代开始的标志</code>。<code>他利用Unix的核心，去除繁杂的核心程序，改写成适用于一般计算机的x86系统，并放在网络上供大家下载，1994年推出完整的核心Version1.0，至此，Linux逐渐成为功能完善、稳定的操作系统，并被广泛使用。</code></p>
+<blockquote>
+<p><code>总结</code>:Linux出现于<code>1991年</code>，是由<code>芬兰赫尔辛基大学学生</code>,<code>Linus Torvalds</code>和后来加入的众多爱好者共同开发完成。</p>
+</blockquote>
+<hr>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/image-20191011201019566.png"
+        data-srcset="/images/image-20191011201019566.png, /images/image-20191011201019566.png 1.5x, /images/image-20191011201019566.png 2x"
+        data-sizes="auto"
+        alt="/images/image-20191011201019566.png"
+        title="/images/image-20191011201019566.png" /></p>
+<h2 id="3linux的特点">3.Linux的特点</h2>
+<h3 id="31-完全免费">3.1 完全免费</h3>
+<p>Linux是一款免费的操作系统，用户可以通过网络或其他途径免费获得，并可以任意修改其<a href="https://baike.baidu.com/item/%e6%ba%90%e4%bb%a3%e7%a0%81/3969" target="_blank" rel="noopener noreffer ">源代码</a>。这是其他的操作系统所做不到的。正是由于这一点，来自全世界的无数<a href="https://baike.baidu.com/item/%e7%a8%8b%e5%ba%8f%e5%91%98/62748" target="_blank" rel="noopener noreffer ">程序员</a>参与了Linux的修改、编写工作，程序员可以根据自己的兴趣和灵感对其进行改变，这让Linux吸收了无数程序员的精华，不断壮大。</p>
+<h3 id="32-多用户多任务">3.2 多用户、多任务</h3>
+<p>Linux支持多用户，各个用户对于自己的文件设备有自己特殊的权利，保证了各用户之间互不影响。<code>多任务</code>则是现在电脑最主要的一个特点，Linux可以使多个程序同时并独立地运行。同时``丰富的网络功能，可靠的系统安全，良好的可移植性，具有标准兼容性，出色的速度性能`。</p>
+<h2 id="4linux中目录结构">4.Linux中目录结构</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/image-20191011205611690.png"
+        data-srcset="/images/image-20191011205611690.png, /images/image-20191011205611690.png 1.5x, /images/image-20191011205611690.png 2x"
+        data-sizes="auto"
+        alt="/images/image-20191011205611690.png"
+        title="/images/image-20191011205611690.png" /></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 目录结构	
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	bin  (binaries)存放二进制可执行文件																									 [重点]
+</span></span><span class="line"><span class="cl">	sbin  (super user binaries)存放二进制可执行文件，只有root才能访问
+</span></span><span class="line"><span class="cl">	etc (etcetera)存放系统配置文件																											[重点]
+</span></span><span class="line"><span class="cl">	usr  (unix shared resources)用于存放共享的系统资源  																	[重点]
+</span></span><span class="line"><span class="cl">	home 存放用户文件的根目录																														 [重点]
+</span></span><span class="line"><span class="cl">	root  超级用户目录																															   [重点]
+</span></span><span class="line"><span class="cl">	dev (devices)用于存放设备文件
+</span></span><span class="line"><span class="cl">	lib  (library)存放跟文件系统中的程序运行所需要的共享库及内核模块
+</span></span><span class="line"><span class="cl">	mnt  (mount)系统管理员安装临时文件系统的安装点
+</span></span><span class="line"><span class="cl">	boot 存放用于系统引导时使用的各种文件
+</span></span><span class="line"><span class="cl">	tmp  (temporary)用于存放各种临时文件																							   [重点]
+</span></span><span class="line"><span class="cl">	var  (variable)用于存放运行时需要改变数据的文件
+</span></span></code></pre></div><hr>
+<h2 id="5-linux中常用指令">5. Linux中常用指令</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># Linux中命令格式:
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	
+</span></span><span class="line"><span class="cl">		命令  -选项  参数    如:  ls -l /usr 
+</span></span></code></pre></div><blockquote>
+<p><code>注意:在linux中命令严格区分大小写</code></p>
+</blockquote>
+<h3 id="51-ls-命令">5.1 ls 命令</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># ls  显示文件和目录列表	(list)
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>
+</span></span><span class="line"><span class="cl">	常用参数:  
+</span></span><span class="line"><span class="cl">		-l (long)	 长格式显示文件和目录信息
+</span></span><span class="line"><span class="cl">		-a (all)	 显示所有文件和目录(包含隐藏文件和目录)
+</span></span><span class="line"><span class="cl">		-R         递归显示指定目录下的文件清单，即会显示指定目录分支内各子目录中的文件清单。
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 0. ls (查看目录下文件和目录)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">aa  aa.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. ls -l (长格式展示文件)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ls -l</span>
+</span></span><span class="line"><span class="cl">总用量 <span class="m">60</span>
+</span></span><span class="line"><span class="cl">drwxrwxr-x      <span class="m">2</span>   user1  user1    <span class="m">4096</span>    Aug <span class="m">17</span> 09:10 abc
+</span></span><span class="line"><span class="cl">- rw- r-- r--    <span class="m">1</span>   user1  user1    <span class="m">17</span>     Aug <span class="m">17</span> 09:04 host.conf
+</span></span><span class="line"><span class="cl">- rw- r-- r--    <span class="m">1</span>   user1  user1    <span class="m">38450</span>  Aug <span class="m">17</span> 09:04 php.ini
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="sb">`</span>长格式含义:<span class="sb">`</span>
+</span></span><span class="line"><span class="cl">文件类型 文件权限   链接数  属主    属组    大小   日期   时间    文件名
+</span></span><span class="line"><span class="cl">d     rwxrwxr-x     <span class="m">2</span>     user1  user1 <span class="m">4096</span>  Aug <span class="m">17</span> 09:10  abc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. ls -a (显示所有文件)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ls -a</span>
+</span></span><span class="line"><span class="cl">.   aa      .bash_history  .bash_profile  .cshrc  .tcshrc
+</span></span><span class="line"><span class="cl">..  aa.txt  .bash_logout   .bashrc        .pki    .viminfo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 3. ls -R (递归显示文件)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ls -R</span>
+</span></span><span class="line"><span class="cl">.:
+</span></span><span class="line"><span class="cl">aa  aa.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">./aa:
+</span></span></code></pre></div><h3 id="52-操作文件命令">5.2 操作文件命令</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 0.cd 用来切换目录
+</span></span></span><span class="line"><span class="cl"><span class="gh"># 1.pwd 显示当前工作目录（print working directory）
+</span></span></span><span class="line"><span class="cl"><span class="gh"># 2.touch 创建空文件		 
+</span></span></span><span class="line"><span class="cl"><span class="gh"># 3.mkdir 创建目录（make directoriy）
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>			-p 父目录不存在情况下先生成父目录 （parents）            
+</span></span><span class="line"><span class="cl"><span class="gh"># 4.cp 复制文件或目录（copy）
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>      cp  文件名    目录   复制文件到指定目录中
+</span></span><span class="line"><span class="cl">      cp  -r 目录名    目录   复制指定目录到指定目录中
+</span></span><span class="line"><span class="cl">			-r 递归处理，将指定目录下的文件与子目录一并拷贝（recursive）     
+</span></span><span class="line"><span class="cl"><span class="gh"># 5.mv 移动文件或目录、文件或目录改名（move）
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>			mv 文件名    新文件名      文件改名
+</span></span><span class="line"><span class="cl">			mv 文件名    目录名     	文件移动
+</span></span><span class="line"><span class="cl">			mv 目录名    不存在目录名  目录改名   
+</span></span><span class="line"><span class="cl">      mv 目录名	  已存在目录名  目录移动
+</span></span><span class="line"><span class="cl"><span class="gh"># 6.rm 删除文件（remove）
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>			-r 同时删除该目录下的所有文件（recursive）
+</span></span><span class="line"><span class="cl">			-f 强制删除文件或目录（force）
+</span></span><span class="line"><span class="cl"><span class="gh"># 7.rmdir 删除空目录（remove directoriy）
+</span></span></span><span class="line"><span class="cl"><span class="gh"># 8.cat 显示文本文件内容 （catenate） 用来展示少量内容
+</span></span></span><span class="line"><span class="cl"><span class="gh"># 9.more、less 分页显示文本文件内容   退出用q退出
+</span></span></span><span class="line"><span class="cl"><span class="gh"># 10.head、tail查看文本中开头或结尾部分的内容
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		head  -n  5  a.log 查看a.log文件的前5行
+</span></span><span class="line"><span class="cl"><span class="gh"># 11.tail  -f  b.log 循环读取（fellow）
+</span></span></span><span class="line"><span class="cl"><span class="gh"># 12.echo 输出命令
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>			echo   I love baby								说明:用来向屏幕输出一句话
+</span></span><span class="line"><span class="cl">			echo I Love baby  &gt;&gt;  aa.txt			说明:将这段内容输入到 文件中
+</span></span></code></pre></div><h3 id="53-网络相关命令">5.3 网络相关命令</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 1.ip addr 查看IP地址
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		ip a  简化写法
+</span></span><span class="line"><span class="cl"><span class="gh"># 2.ping 测试网络连通性
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		ping 192.168.0.1
+</span></span></code></pre></div><h3 id="54-tar命令windows-winrar-好压">5.4 tar命令(windows winrar 好压)</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># tar 命令   
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		-c 建立一个压缩文件的参数指令（create）
+</span></span><span class="line"><span class="cl">		-x 解开一个压缩文件的参数指令（extract）
+</span></span><span class="line"><span class="cl">		-z 是否需要用 gzip 压缩  
+</span></span><span class="line"><span class="cl">		-v 压缩的过程中显示文件（verbose）
+</span></span><span class="line"><span class="cl">		-f 使用档名，在 f 之后要立即接档名（file）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="sb">`通常组合使用:`</span>
+</span></span><span class="line"><span class="cl">			tar -cvf aaa.tar file1.txt file2.txt 					将file1和2打包成aaa.tar
+</span></span><span class="line"><span class="cl">			
+</span></span><span class="line"><span class="cl">			tar -zcvf aaa.tar.gz file1.txt file2.txt 			将file1和2打包成aaa.tar并压缩
+</span></span><span class="line"><span class="cl">			tar -zxvf aaa.tar.gz file1.txt file2.txt 			将aaa.tar.gz解压
+</span></span></code></pre></div><h3 id="55-systemctl-服务命令">5.5 systemctl 服务命令</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># systemctl 
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>  systemctl status|start|stop|restart 服务名  mysqld firewalld(防火墙) network(网络)
+</span></span><span class="line"><span class="cl">	systemctl status 服务名          说明:查看某个服务的运行状态
+</span></span><span class="line"><span class="cl">	systemctl start 服务名 					说明:启动某个服务
+</span></span><span class="line"><span class="cl">	systemctl restart 服务名 				说明:重启某个服务
+</span></span><span class="line"><span class="cl">	systemctl stop 服务名 						说明:停止某个服务
+</span></span></code></pre></div><h3 id="56-进程相关命令">5.6 进程相关命令</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 1.ps 询在当前控制台上运行的进程
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		ps  -aux   说明:查询系统中所有运行的进程，包括后台进程，其中参数a是所有进程，参数x包括不占用控制台的进程，参数u显示用户。
+</span></span><span class="line"><span class="cl">		ps  -ef		 说明:查询系统中所有运行的进程，包括后台进程，而且可以显示出每个进程的父进程号。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    ps -aux|grep 进程 服务名  关键字 tomcat  重点
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 2.top	命令  动态显示系统进程
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 3.kill 杀死进程
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		kill  3029 说明：上述命令中3029是进程号；一般在执行kill命令之前，先用ps或pstree来查询一下将要被杀掉的进程的进程号。 
+</span></span><span class="line"><span class="cl">		kill  -9  3029 说明:强制终止3029号进程的运行，其中参数-9代表强制的意思,实际上kill命令是向该进程发送信号，
+</span></span><span class="line"><span class="cl">												该进程接到信号后决定是否停止运行，有些守护进程必须要收到参数9才终止运行。
+</span></span><span class="line"><span class="cl">		
+</span></span></code></pre></div><h3 id="57-vi命令">5.7 vi命令</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># vi / vim是Unix / Linux上最常用的文本编辑器而且功能非常强大。
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 常用命令:
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>
+</span></span><span class="line"><span class="cl">		i						在光标前插入
+</span></span><span class="line"><span class="cl"> 		I						在光标当前行开始插入
+</span></span><span class="line"><span class="cl"> 		a						在光标后插入
+</span></span><span class="line"><span class="cl"> 		A						在光标当前行末尾插入
+</span></span><span class="line"><span class="cl"> 		o						在光标当前行的下一行插入新行
+</span></span><span class="line"><span class="cl"> 		O						在光标当前行的上一行插入新行
+</span></span><span class="line"><span class="cl"> 		----------------重点---------------------------
+</span></span><span class="line"><span class="cl"> 		:set nu			显示行号
+</span></span><span class="line"><span class="cl"> 		:set nonu		取消行号
+</span></span><span class="line"><span class="cl"> 		gg					到文本的第一行
+</span></span><span class="line"><span class="cl"> 		G						到文本的最后一行
+</span></span><span class="line"><span class="cl"> 		:n					到文本的第n行
+</span></span><span class="line"><span class="cl"> 		------------------重点-------------------------
+</span></span><span class="line"><span class="cl"> 		u						undo,取消上一步操作
+</span></span><span class="line"><span class="cl"> 		Ctrl + r		redo,返回到undo之前
+</span></span><span class="line"><span class="cl"> 		
+</span></span><span class="line"><span class="cl"> 		-------------------重点------------------------
+</span></span><span class="line"><span class="cl"> 		Shift+ zz		保存退出，与“:wq”作用相同
+</span></span><span class="line"><span class="cl">		:q					退出不保存
+</span></span><span class="line"><span class="cl">		:q!					强制退出不保存
+</span></span><span class="line"><span class="cl">		:wq					保存退出
+</span></span><span class="line"><span class="cl">		:wq!				强制保存退出
+</span></span></code></pre></div><h3 id="58-软件相关命令">5.8 软件相关命令</h3>
+<p><code>RPM命令</code></p>
+<blockquote>
+<p>​	<code>RPM是RedHat Package Manager（RedHat软件包管理工具）的缩写，这一文件格式名称虽然打上了RedHat的标志，但是其原始设计理念是开放式的，现在包括RedHat、CentOS、SUSE等Linux的分发版本都有采用，可以算是公认的行业标准了。RPM文件在Linux系统中的安装最为简便,</code></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># rpm 命令  
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	常用参数:
+</span></span><span class="line"><span class="cl">      i：安装应用程序（install）
+</span></span><span class="line"><span class="cl">      e：卸载应用程序（erase）
+</span></span><span class="line"><span class="cl">      vh：显示安装进度；（verbose   hash） 
+</span></span><span class="line"><span class="cl">      U：升级软件包；（update） 
+</span></span><span class="line"><span class="cl">      qa: 显示所有已安装软件包（query all）
+</span></span><span class="line"><span class="cl">	例子：rmp  -ivh  gcc-c++-4.4.7-3.el6.x86_64.rpm
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">安装 
+</span></span><span class="line"><span class="cl">		rpm -ivh  xxxx.rpm
+</span></span><span class="line"><span class="cl">    rpm -evh  xxxx.rpm
+</span></span><span class="line"><span class="cl">    rpm -Uvh  xxx.rpm
+</span></span><span class="line"><span class="cl">    rpm -qa 
+</span></span></code></pre></div><p><code>YUM命令</code></p>
+<blockquote>
+<p>​	<code>Yum（全称为 Yellow dog Updater, Modified）是一个在Fedora和RedHat以及SUSE、CentOS中的Shell前端软件包管理器。基於RPM包管理，能够从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系，并且一次安装所有依赖的软件包，无须繁琐地一次次下载、安装。</code></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">例子：
+</span></span><span class="line"><span class="cl">    yum  install  gcc-c++
+</span></span><span class="line"><span class="cl">    yum  remove   gcc-c++
+</span></span><span class="line"><span class="cl">    yum  update   gcc-c++
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    yum install|remove|update  依赖名称
+</span></span></code></pre></div><blockquote>
+<p><code>使用YUM命令必须连接外部网络</code></p>
+</blockquote>
+<h3 id="59-用户和组相关命令">5.9 用户和组相关命令</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 1.查看当前用户：whoami
+</span></span></span><span class="line"><span class="cl"><span class="gh"># 2.查看登录用户：who
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	-m或am I	只显示运行who命令的用户名、登录终端和登录时间
+</span></span><span class="line"><span class="cl">	-q或--count	只显示用户的登录账号和登录用户的数量
+</span></span><span class="line"><span class="cl"><span class="gh"># 3.退出用户:		exit
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>
+</span></span><span class="line"><span class="cl"><span class="gh"># 4.添加、删除组账号：groupadd、groupdel
+</span></span></span><span class="line"><span class="cl"><span class="gh"># 5.添加用户账号：useradd
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		-g	指定组名称  说明:如果创建用户的时候，不指定组名，那么系统会自动创建一个和用户名一样的组名。
+</span></span><span class="line"><span class="cl"><span class="gh"># 6.设置用户密码：passwd　[用户名]
+</span></span></span><span class="line"><span class="cl"><span class="gh"># 7.su 切换用户
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		su  root 
+</span></span></code></pre></div><h3 id="510-权限相关命令">5.10 权限相关命令</h3>
+<blockquote>
+<p>Linux文件有<code>三种</code>典型的权限，<code>即r读权限、w写权限和x执行权限</code>。在长格式输出中在文件类型的后面有9列权限位，实际上这是针对不同用户而设定的。<code>r=4，w=2，x=1</code></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># chmod 
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>  all = user + group + other 
+</span></span><span class="line"><span class="cl">  chmod  u+rwx,g+rwx,o+rwx   文件名
+</span></span><span class="line"><span class="cl">	字母法：chmod u/g/o/a +/-/= rwx 文件
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">    [ u/g/o/a ]	含义
+</span></span><span class="line"><span class="cl">    	u	user 					表示该文件的所有者
+</span></span><span class="line"><span class="cl">    	g	group 				表示与该文件的所有者属于同一组( group )者，即用户组
+</span></span><span class="line"><span class="cl">    	o	other 				表示其他以外的人
+</span></span><span class="line"><span class="cl">    	a	all 					表示这三者皆是
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    [ +-= ]	含义
+</span></span><span class="line"><span class="cl">    	+								增加权限
+</span></span><span class="line"><span class="cl">    	<span class="k">-</span>								撤销权限
+</span></span><span class="line"><span class="cl">    	=								设定权限
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    rwx	含义
+</span></span><span class="line"><span class="cl">    	r								read 表示可读取，对于一个目录，如果没有r权限，那么就意味着不能通过ls查看这个目录的内容。
+</span></span><span class="line"><span class="cl">    	w								write 表示可写入，对于一个目录，如果没有w权限，那么就意味着不能在目录下创建新的文件。
+</span></span><span class="line"><span class="cl">    	x								excute 表示可执行，对于一个目录，如果没有x权限，那么就意味着不能通过cd进入这个目录。
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">   数字法:   4读 2写  1执行
+</span></span><span class="line"><span class="cl">      chmod 777 文件名
+</span></span></code></pre></div><hr>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-12-03</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://huangzhifeng1.github.io/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="Linux学习笔记"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://huangzhifeng1.github.io/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://huangzhifeng1.github.io/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="Linux学习笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://huangzhifeng1.github.io/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="Linux学习笔记"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://huangzhifeng1.github.io/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="Linux学习笔记"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/nginx%E7%9A%84%E5%AE%89%E8%A3%85/" class="prev" rel="prev" title="Nginx的安装"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Nginx的安装</a>
+            <a href="/posts/docker/" class="next" rel="next" title="Docker">Docker<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">锋哥</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

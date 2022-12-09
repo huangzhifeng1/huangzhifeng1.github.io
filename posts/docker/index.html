@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Docker - 锋哥博客</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Docker" />
+<meta property="og:description" content="1.什么是 Docker 官网的介绍是“Docker is the world’s leading software container platform.” 官方给Docker的定位是一个应用容器平台。
+Docker 是一个容器平台的领导者 Docker 容器平台 Docker 应用容器平台
+application项目 Mysql Redis MongoDB ElasticSeacrh &hellip;..
+application项目 Docker 应用容器平台 Mysql Redis mongoDB ElasticSearch tomcat nginx&hellip;&hellip;
+2.为什么是Docker 合作开发的时候，在本机可以跑，别人的电脑跑不起来
+这里我们拿java Web应用程序举例，我们一个java Web应用程序涉及很多东西，比如jdk、tomcat、spring等等。当这些其中某一项版本不一致的时候，可能就会导致应用程序跑不起来这种情况。Docker则将程序直接打包成镜像，直接运行在容器中即可。
+服务器自己的程序挂了，结果发现是别人程序出了问题把内存吃完了，自己程序因为内存不够就挂了
+这种也是一种比较常见的情况，如果你的程序重要性不是特别高的话，公司基本上不可能让你的程序独享一台服务器的，这时候你的服务器就会跟公司其他人的程序共享一台服务器，所以不可避免地就会受到其他程序的干扰，导致自己的程序出现问题。Docker就很好解决了环境隔离的问题，别人程序不会影响到自己的程序。
+公司要弄一个活动，可能会有大量的流量进来，公司需要再多部署几十台服务器
+在没有Docker的情况下，要在几天内部署几十台服务器，这对运维来说是一件非常折磨人的事，而且每台服务器的环境还不一定一样，就会出现各种问题，最后部署地头皮发麻。用Docker的话，我只需要将程序打包到镜像，你要多少台服务，我就给力跑多少容器，极大地提高了部署效率。
+3.Docker和虚拟机区别 关于Docker与虚拟机的区别，我在网上找到的一张图，非常直观形象地展示出来，话不多说，直接上图。
+比较上面两张图，我们发现虚拟机是携带操作系统，本身很小的应用程序却因为携带了操作系统而变得非常大，很笨重。Docker是不携带操作系统的，所以Docker的应用就非常的轻巧。另外在调用宿主机的CPU、磁盘等等这些资源的时候，拿内存举例，虚拟机是利用Hypervisor去虚拟化内存，整个调用过程是虚拟内存-&gt;虚拟物理内存-&gt;真正物理内存，但是Docker是利用Docker Engine去调用宿主的的资源，这时候过程是虚拟内存-&gt;真正物理内存。
+传统虚拟机 Docker容器 磁盘占用 几个GB到几十个GB左右 几十MB到几百MB左右 CPU内存占用 虚拟操作系统非常占用CPU和内存 Docker引擎占用极低 启动速度 （从开机到运行项目）几分钟 （从开启容器到运行项目）几秒 安装管理 需要专门的运维技术 安装、管理方便 应用部署 每次部署都费时费力 从第二次部署开始轻松简捷 耦合性 多个应用服务安装到一起，容易互相影响 每个应用服务一个容器，达成隔离 系统依赖 无 需求相同或相似的内核，目前推荐是Linux 4.Docker 的核心 镜像: 一个镜像代表一个应用环境,他是一个只读的文件,如 mysql镜像,tomcat镜像,nginx镜像等 容器: 镜像每次运行之后就是产生一个容器,就是正在运行的镜像,特点就是可读可写 仓库:用来存放镜像的位置,类似于maven仓库,也是镜像下载和上传的位置 dockerFile:docker生成镜像配置文件,用来书写自定义镜像的一些配置 tar:一个对镜像打包的文件,日后可以还原成镜像 5." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://huangzhifeng1.github.io/posts/docker/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-03T17:10:54+08:00" />
+<meta property="article:modified_time" content="2022-12-03T17:10:54+08:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Docker"/>
+<meta name="twitter:description" content="1.什么是 Docker 官网的介绍是“Docker is the world’s leading software container platform.” 官方给Docker的定位是一个应用容器平台。
+Docker 是一个容器平台的领导者 Docker 容器平台 Docker 应用容器平台
+application项目 Mysql Redis MongoDB ElasticSeacrh &hellip;..
+application项目 Docker 应用容器平台 Mysql Redis mongoDB ElasticSearch tomcat nginx&hellip;&hellip;
+2.为什么是Docker 合作开发的时候，在本机可以跑，别人的电脑跑不起来
+这里我们拿java Web应用程序举例，我们一个java Web应用程序涉及很多东西，比如jdk、tomcat、spring等等。当这些其中某一项版本不一致的时候，可能就会导致应用程序跑不起来这种情况。Docker则将程序直接打包成镜像，直接运行在容器中即可。
+服务器自己的程序挂了，结果发现是别人程序出了问题把内存吃完了，自己程序因为内存不够就挂了
+这种也是一种比较常见的情况，如果你的程序重要性不是特别高的话，公司基本上不可能让你的程序独享一台服务器的，这时候你的服务器就会跟公司其他人的程序共享一台服务器，所以不可避免地就会受到其他程序的干扰，导致自己的程序出现问题。Docker就很好解决了环境隔离的问题，别人程序不会影响到自己的程序。
+公司要弄一个活动，可能会有大量的流量进来，公司需要再多部署几十台服务器
+在没有Docker的情况下，要在几天内部署几十台服务器，这对运维来说是一件非常折磨人的事，而且每台服务器的环境还不一定一样，就会出现各种问题，最后部署地头皮发麻。用Docker的话，我只需要将程序打包到镜像，你要多少台服务，我就给力跑多少容器，极大地提高了部署效率。
+3.Docker和虚拟机区别 关于Docker与虚拟机的区别，我在网上找到的一张图，非常直观形象地展示出来，话不多说，直接上图。
+比较上面两张图，我们发现虚拟机是携带操作系统，本身很小的应用程序却因为携带了操作系统而变得非常大，很笨重。Docker是不携带操作系统的，所以Docker的应用就非常的轻巧。另外在调用宿主机的CPU、磁盘等等这些资源的时候，拿内存举例，虚拟机是利用Hypervisor去虚拟化内存，整个调用过程是虚拟内存-&gt;虚拟物理内存-&gt;真正物理内存，但是Docker是利用Docker Engine去调用宿主的的资源，这时候过程是虚拟内存-&gt;真正物理内存。
+传统虚拟机 Docker容器 磁盘占用 几个GB到几十个GB左右 几十MB到几百MB左右 CPU内存占用 虚拟操作系统非常占用CPU和内存 Docker引擎占用极低 启动速度 （从开机到运行项目）几分钟 （从开启容器到运行项目）几秒 安装管理 需要专门的运维技术 安装、管理方便 应用部署 每次部署都费时费力 从第二次部署开始轻松简捷 耦合性 多个应用服务安装到一起，容易互相影响 每个应用服务一个容器，达成隔离 系统依赖 无 需求相同或相似的内核，目前推荐是Linux 4.Docker 的核心 镜像: 一个镜像代表一个应用环境,他是一个只读的文件,如 mysql镜像,tomcat镜像,nginx镜像等 容器: 镜像每次运行之后就是产生一个容器,就是正在运行的镜像,特点就是可读可写 仓库:用来存放镜像的位置,类似于maven仓库,也是镜像下载和上传的位置 dockerFile:docker生成镜像配置文件,用来书写自定义镜像的一些配置 tar:一个对镜像打包的文件,日后可以还原成镜像 5."/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://huangzhifeng1.github.io/posts/docker/" /><link rel="prev" href="https://huangzhifeng1.github.io/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Docker",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/huangzhifeng1.github.io\/posts\/docker\/"
+        },"genre": "posts","wordcount":  483 ,
+        "url": "https:\/\/huangzhifeng1.github.io\/posts\/docker\/","datePublished": "2022-12-03T17:10:54+08:00","dateModified": "2022-12-03T17:10:54+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "锋哥"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="锋哥博客">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="锋哥博客">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Docker</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>锋哥</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-12-03">2022-12-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;483 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1什么是-docker">1.什么是 Docker</a></li>
+    <li><a href="#2为什么是docker">2.为什么是Docker</a></li>
+    <li><a href="#3docker和虚拟机区别">3.Docker和虚拟机区别</a></li>
+    <li><a href="#4docker-的核心">4.Docker 的核心</a></li>
+    <li><a href="#5docker的安装centos7x">5.Docker的安装(centos7.x)</a>
+      <ul>
+        <li><a href="#51-卸载原有-docker">5.1 卸载原有 docker</a></li>
+        <li><a href="#52-安装docker">5.2 安装docker</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-docker-配置阿里镜像加速服务">6. Docker 配置阿里镜像加速服务</a>
+      <ul>
+        <li><a href="#61-docker-运行流程">6.1 docker 运行流程</a></li>
+        <li><a href="#62-docker配置阿里云镜像加速">6.2 docker配置阿里云镜像加速</a></li>
+      </ul>
+    </li>
+    <li><a href="#7常用命令">7.常用命令</a>
+      <ul>
+        <li><a href="#71-辅助命令">7.1 辅助命令</a></li>
+        <li><a href="#72-images-镜像命令">7.2 Images 镜像命令</a></li>
+        <li><a href="#73-contrainer-容器命令">7.3 Contrainer 容器命令</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1什么是-docker">1.什么是 Docker</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/image-20200404105433120.png"
+        data-srcset="/images/image-20200404105433120.png, /images/image-20200404105433120.png 1.5x, /images/image-20200404105433120.png 2x"
+        data-sizes="auto"
+        alt="/images/image-20200404105433120.png"
+        title="/images/image-20200404105433120.png" /></p>
+<p>官网的介绍是“<code>Docker is the world’s leading software container platform.</code>” 官方给Docker的定位是一个<code>应用容器平台</code>。</p>
+<p>Docker 是一个容器平台的领导者  Docker 容器平台   Docker 应用容器平台</p>
+<p>application项目    Mysql  Redis   MongoDB  ElasticSeacrh   &hellip;..</p>
+<p>application项目    Docker  应用容器平台  Mysql  Redis  mongoDB   ElasticSearch   tomcat nginx&hellip;&hellip;</p>
+<h2 id="2为什么是docker">2.为什么是Docker</h2>
+<ul>
+<li>
+<p><code>合作开发的时候，在本机可以跑，别人的电脑跑不起来</code></p>
+<p>这里我们拿java Web应用程序举例，我们一个java Web应用程序涉及很多东西，比如jdk、tomcat、spring等等。当这些其中某一项版本不一致的时候，可能就会导致应用程序跑不起来这种情况。Docker则将程序直接打包成镜像，直接运行在容器中即可。</p>
+</li>
+<li>
+<p><code>服务器自己的程序挂了，结果发现是别人程序出了问题把内存吃完了，自己程序因为内存不够就挂了</code></p>
+<p>这种也是一种比较常见的情况，如果你的程序重要性不是特别高的话，公司基本上不可能让你的程序独享一台服务器的，这时候你的服务器就会跟公司其他人的程序共享一台服务器，所以不可避免地就会受到其他程序的干扰，导致自己的程序出现问题。Docker就很好解决了环境隔离的问题，别人程序不会影响到自己的程序。</p>
+</li>
+<li>
+<p><code>公司要弄一个活动，可能会有大量的流量进来，公司需要再多部署几十台服务器</code></p>
+<p>在没有Docker的情况下，要在几天内部署几十台服务器，这对运维来说是一件非常折磨人的事，而且每台服务器的环境还不一定一样，就会出现各种问题，最后部署地头皮发麻。用Docker的话，我只需要将程序打包到镜像，你要多少台服务，我就给力跑多少容器，极大地提高了部署效率。</p>
+</li>
+</ul>
+<hr>
+<h2 id="3docker和虚拟机区别">3.Docker和虚拟机区别</h2>
+<blockquote>
+<p>关于Docker与虚拟机的区别，我在网上找到的一张图，非常直观形象地展示出来，话不多说，直接上图。</p>
+</blockquote>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/image-20200410132957752.png"
+        data-srcset="/images/image-20200410132957752.png, /images/image-20200410132957752.png 1.5x, /images/image-20200410132957752.png 2x"
+        data-sizes="auto"
+        alt="/images/image-20200410132957752.png"
+        title="/images/image-20200410132957752.png" /></p>
+<p><code>比较上面两张图，我们发现虚拟机是携带操作系统，本身很小的应用程序却因为携带了操作系统而变得非常大，很笨重</code>。Docker是不携带操作系统的，所以Docker的应用就非常的轻巧。另外在调用宿主机的CPU、磁盘等等这些资源的时候，拿内存举例，虚拟机是利用Hypervisor去虚拟化内存，整个调用过程是虚拟内存-&gt;虚拟物理内存-&gt;真正物理内存，但是Docker是利用Docker Engine去调用宿主的的资源，这时候过程是虚拟内存-&gt;真正物理内存。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>传统虚拟机</th>
+<th>Docker容器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>磁盘占用</td>
+<td>几个GB到几十个GB左右</td>
+<td>几十MB到几百MB左右</td>
+</tr>
+<tr>
+<td>CPU内存占用</td>
+<td>虚拟操作系统非常占用CPU和内存</td>
+<td>Docker引擎占用极低</td>
+</tr>
+<tr>
+<td>启动速度</td>
+<td>（从开机到运行项目）几分钟</td>
+<td>（从开启容器到运行项目）几秒</td>
+</tr>
+<tr>
+<td>安装管理</td>
+<td>需要专门的运维技术</td>
+<td>安装、管理方便</td>
+</tr>
+<tr>
+<td>应用部署</td>
+<td>每次部署都费时费力</td>
+<td>从第二次部署开始轻松简捷</td>
+</tr>
+<tr>
+<td>耦合性</td>
+<td>多个应用服务安装到一起，容易互相影响</td>
+<td>每个应用服务一个容器，达成隔离</td>
+</tr>
+<tr>
+<td>系统依赖</td>
+<td>无</td>
+<td>需求相同或相似的内核，目前推荐是Linux</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4docker-的核心">4.Docker 的核心</h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/image-20200404111908085.png"
+        data-srcset="/images/image-20200404111908085.png, /images/image-20200404111908085.png 1.5x, /images/image-20200404111908085.png 2x"
+        data-sizes="auto"
+        alt="/images/image-20200404111908085.png"
+        title="/images/image-20200404111908085.png" /></p>
+<ul>
+<li><code>镜像:</code> 一个镜像代表一个应用环境,他是一个只读的文件,如 mysql镜像,tomcat镜像,nginx镜像等</li>
+<li><code>容器:</code> 镜像每次运行之后就是产生一个容器,就是正在运行的镜像,特点就是可读可写</li>
+<li><code>仓库:</code>用来存放镜像的位置,类似于maven仓库,也是镜像下载和上传的位置</li>
+<li><code>dockerFile:</code>docker生成镜像配置文件,用来书写自定义镜像的一些配置</li>
+<li><code>tar:</code>一个对镜像打包的文件,日后可以还原成镜像</li>
+</ul>
+<h2 id="5docker的安装centos7x">5.Docker的安装(centos7.x)</h2>
+<h3 id="51-卸载原有-docker">5.1 卸载原有 docker</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo yum remove docker <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>                  docker-client <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>                  docker-client-latest <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>                  docker-common <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>                  docker-latest <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>                  docker-latest-logrotate <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>                  docker-logrotate <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>                  docker-engine
+</span></span></code></pre></div><h3 id="52-安装docker">5.2 安装docker</h3>
+<blockquote>
+<p>安装docker依赖</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo yum install -y yum-utils <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  device-mapper-persistent-data <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  lvm2
+</span></span></code></pre></div><blockquote>
+<p>设置docker的yum源</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo yum-config-manager <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --add-repo <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    https://download.docker.com/linux/centos/docker-ce.repo
+</span></span></code></pre></div><blockquote>
+<p>安装最新版的docker</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo yum install docker-ce docker-ce-cli containerd.io
+</span></span></code></pre></div><blockquote>
+<p>指定版本安装docker</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ yum list docker-ce --showduplicates <span class="p">|</span> sort -r
+</span></span><span class="line"><span class="cl">$ sudo yum install docker-ce-&lt;VERSION_STRING&gt; docker-ce-cli-&lt;VERSION_STRING&gt; containerd.io
+</span></span><span class="line"><span class="cl">$ sudo yum install docker-ce-18.09.5-3.el7 docker-ce-cli-18.09.5-3.el7 containerd.io
+</span></span></code></pre></div><blockquote>
+<p>启动docker</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo systemctl start docker
+</span></span></code></pre></div><blockquote>
+<p>关闭docker</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo systemctl stop docker
+</span></span></code></pre></div><blockquote>
+<p>测试docker安装</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo docker run hello-world
+</span></span></code></pre></div><hr>
+<h2 id="6-docker-配置阿里镜像加速服务">6. Docker 配置阿里镜像加速服务</h2>
+<h3 id="61-docker-运行流程">6.1 docker 运行流程</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/image-20200404120356784.png"
+        data-srcset="/images/image-20200404120356784.png, /images/image-20200404120356784.png 1.5x, /images/image-20200404120356784.png 2x"
+        data-sizes="auto"
+        alt="/images/image-20200404120356784.png"
+        title="/images/image-20200404120356784.png" /></p>
+<h3 id="62-docker配置阿里云镜像加速">6.2 docker配置阿里云镜像加速</h3>
+<ul>
+<li><code>访问阿里云登录自己账号查看docker镜像加速服务</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo mkdir -p /etc/docker
+</span></span><span class="line"><span class="cl">sudo tee /etc/docker/daemon.json <span class="s">&lt;&lt;-&#39;EOF&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;registry-mirrors&#34;: [&#34;https://lz2nib3q.mirror.aliyuncs.com&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">sudo systemctl daemon-reload
+</span></span><span class="line"><span class="cl">sudo systemctl restart docker
+</span></span></code></pre></div><ul>
+<li><code>验证docker的镜像加速是否生效</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># docker info</span>
+</span></span><span class="line"><span class="cl">		..........
+</span></span><span class="line"><span class="cl">    127.0.0.0/8
+</span></span><span class="line"><span class="cl">   Registry Mirrors:
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;https://lz2nib3q.mirror.aliyuncs.com/&#39;</span>
+</span></span><span class="line"><span class="cl">   Live Restore Enabled: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">   Product License: Community Engine
+</span></span></code></pre></div><hr>
+<h2 id="7常用命令">7.常用命令</h2>
+<h3 id="71-辅助命令">7.1 辅助命令</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 1.安装完成辅助命令
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>
+</span></span><span class="line"><span class="cl">		docker version	--------------------------	查看docker的信息
+</span></span><span class="line"><span class="cl">		docker info		--------------------------	查看更详细的信息
+</span></span><span class="line"><span class="cl">		docker --help	--------------------------	帮助命令
+</span></span></code></pre></div><h3 id="72-images-镜像命令">7.2 Images 镜像命令</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 1.查看本机中所有镜像
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker images	--------------------------	列出本地所有镜像
+</span></span><span class="line"><span class="cl">		-a			列出所有镜像（包含中间映像层）
+</span></span><span class="line"><span class="cl">  	-q			只显示镜像id
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 2.搜索镜像
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker search [options] 镜像名	-------------------	去dockerhub上查询当前镜像
+</span></span><span class="line"><span class="cl">		-s 指定值		列出收藏数不少于指定值的镜像
+</span></span><span class="line"><span class="cl">  	--no-trunc	  显示完整的镜像信息
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 3.从仓库下载镜像
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker pull 镜像名[:TAG|@DIGEST]	----------------- 下载镜像
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 4.删除镜像
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker rmi 镜像名	--------------------------  删除镜像
+</span></span><span class="line"><span class="cl">		-f		强制删除
+</span></span></code></pre></div><h3 id="73-contrainer-容器命令">7.3 Contrainer 容器命令</h3>
+<h4 id="731-基本命令容器外操作">7.3.1 基本命令(容器外操作)</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 1.运行容器
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker run 镜像名	--------------------------	镜像名新建并启动容器
+</span></span><span class="line"><span class="cl">    --name 					别名为容器起一个名字
+</span></span><span class="line"><span class="cl">    -d							启动守护式容器（在后台启动容器）
+</span></span><span class="line"><span class="cl">    -p 							映射端口号：原始端口号		 指定端口号启动
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	例：docker run -it --name myTomcat -p 8888:8080 tomcat
+</span></span><span class="line"><span class="cl">   	 docker run -d --name myTomcat -P tomcat
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 2.查看运行的容器
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker ps					--------------------------	列出所有正在运行的容器
+</span></span><span class="line"><span class="cl">	-a			正在运行的和历史运行过的容器
+</span></span><span class="line"><span class="cl">	-q			静默模式，只显示容器编号
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 3.停止|关闭|重启容器
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker start   容器名字或者容器id  --------------- 开启容器
+</span></span><span class="line"><span class="cl">	docker restart 容器名或者容器id    --------------- 重启容器
+</span></span><span class="line"><span class="cl">	docker stop  容器名或者容器id 	    ------------------ 正常停止容器运行
+</span></span><span class="line"><span class="cl">	docker kill  容器名或者容器id      ------------------ 立即停止容器运行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 4.删除容器
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker rm -f 容器id和容器名     
+</span></span><span class="line"><span class="cl">	docker rm -f $(docker ps -aq)		--------------------------	删除所有容器
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 5.查看容器内进程
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker top 容器id或者容器名 ------------------ 查看容器内的进程
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 6.查看查看容器内部细节
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker inspect 容器id 		------------------ 查看容器内部细节
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 7.查看容器的运行日志
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker logs [OPTIONS] 容器id或容器名	------------------ 查看容器日志
+</span></span><span class="line"><span class="cl">    -t			 加入时间戳
+</span></span><span class="line"><span class="cl">    -f			 跟随最新的日志打印
+</span></span><span class="line"><span class="cl">    --tail 	 数字	显示最后多少条
+</span></span></code></pre></div><h4 id="732-进阶命令容器内数据交互">7.3.2 进阶命令(容器内数据交互)</h4>
+<p>centos &mdash;-&gt; docker(引擎) &mdash;-&gt;  mynginx(容器)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gh"># 1.进入容器内部
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker exec [options] 容器id 容器内命令 ------------------ 进入容器执行命令
+</span></span><span class="line"><span class="cl">		-i		以交互模式运行容器，通常与-t一起使用
+</span></span><span class="line"><span class="cl">    -t		分配一个伪终端    shell窗口   /bin/bash 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 2.容器内安装软件
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	apt-get update
+</span></span><span class="line"><span class="cl">	apt-get install 安装包名称
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 3.修改容器内文件
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	
+</span></span><span class="line"><span class="cl"><span class="gh"># 4.退出容器
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	exit		退出容器
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 5.将容器打包为新的镜像
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker commit -a=&#34;作者&#34; -m=&#34;描述信息&#34; 容器ID 目标镜像名称:TAG
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 6.从容器中复制文件到宿主机目录中
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>	docker cp 容器id:容器内资源路径 宿主机目录路径  -----------------   将容器内资源拷贝到主机上
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 7.设置容器和宿主机共享目录
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		docker run -it -v /宿主机的路径:/容器内的路径:ro(只读) 镜像名
+</span></span><span class="line"><span class="cl">			注意: 宿主机路径必须是绝对路径,宿主机目录会覆盖容器内目录内容	
+</span></span><span class="line"><span class="cl">		运行 docker inspect 容器id 命令 检查json串里有没有以下内容，如果有则证明卷挂载成功。
+</span></span><span class="line"><span class="cl">		&#34;Mounts&#34;: [
+</span></span><span class="line"><span class="cl">            {
+</span></span><span class="line"><span class="cl">                &#34;Type&#34;: &#34;bind&#34;,
+</span></span><span class="line"><span class="cl">                &#34;Source&#34;: &#34;/hostDataValueme&#34;,
+</span></span><span class="line"><span class="cl">                &#34;Destination&#34;: &#34;/containerDataValueme&#34;,
+</span></span><span class="line"><span class="cl">                &#34;Mode&#34;: &#34;&#34;,
+</span></span><span class="line"><span class="cl">                &#34;RW&#34;: true,
+</span></span><span class="line"><span class="cl">                &#34;Propagation&#34;: &#34;rprivate&#34;
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">        ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="gh"># 8.打包镜像
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		docker save 镜像名 -o  名称.tar
+</span></span><span class="line"><span class="cl"><span class="gh"># 9.载入镜像
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span>		docker load -i   名称.tar
+</span></span></code></pre></div><hr>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-12-03</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://huangzhifeng1.github.io/posts/docker/" data-title="Docker"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://huangzhifeng1.github.io/posts/docker/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://huangzhifeng1.github.io/posts/docker/" data-title="Docker"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://huangzhifeng1.github.io/posts/docker/" data-title="Docker"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://huangzhifeng1.github.io/posts/docker/" data-title="Docker"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="prev" rel="prev" title="Linux学习笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux学习笔记</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.107.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">锋哥</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
